@@ -1,0 +1,14 @@
+
+if SHIELD_O54GOSW_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "o54gosw"
+
+endif
+
+if SHIELD_O54GOSW_LEFT || SHIELD_O54GOSW_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif

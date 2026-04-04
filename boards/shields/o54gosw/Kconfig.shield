@@ -1,0 +1,4 @@
+config SHIELD_O54GOSW_LEFT
+    def_bool $(shields_list_contains,o54gosw_left)
+config SHIELD_O54GOSW_RIGHT
+    def_bool $(shields_list_contains,o54gosw_right)

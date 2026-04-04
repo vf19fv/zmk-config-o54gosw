@@ -1,0 +1,14 @@
+
+file_format: "1"
+id: o54gosw
+name: o54gosw
+type: shield
+features:
+  - keys
+  - studio
+outputs:
+  - usb
+  - ble
+siblings:
+  - o54gosw_left
+  - o54gosw_right
