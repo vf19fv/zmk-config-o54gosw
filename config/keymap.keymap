@@ -28,10 +28,10 @@
 
         layer_2 {
             bindings = <
-&trans  &trans     &trans     &kp ESC    &trans     &trans  &trans                   &trans  &kp N6  &kp N7  &kp N8  &kp N9  &kp N0   &kp F11
-&trans  &kp LC(A)  &kp LC(S)  &trans     &trans     &trans  &trans                   &trans  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &kp F12
-&trans  &kp LC(Z)  &kp LC(X)  &kp LC(C)  &kp LC(V)  &trans  &trans                   &trans  &trans  &trans  &trans  &trans  &trans   &trans
-&trans  &trans     &trans     &trans     &trans             &kp LANG_ZENKAKUHANKAKU  &trans          &trans  &trans  &trans  &trans   &trans
+&trans  &trans     &trans     &kp ESC    &trans     &trans  &trans                   &bt BT_SEL 0  &kp N6  &kp N7  &kp N8  &kp N9  &kp N0   &kp F11
+&trans  &kp LC(A)  &kp LC(S)  &trans     &trans     &trans  &trans                   &bt BT_SEL 1  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &kp F12
+&trans  &kp LC(Z)  &kp LC(X)  &kp LC(C)  &kp LC(V)  &trans  &trans                   &trans        &trans  &trans  &trans  &trans  &trans   &trans
+&trans  &trans     &trans     &trans     &trans             &kp LANG_ZENKAKUHANKAKU  &trans                &trans  &trans  &trans  &trans   &trans
             >;
         };
 
