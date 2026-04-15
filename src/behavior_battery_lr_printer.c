@@ -15,6 +15,7 @@
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
+/* Max produced string is "L100% R100% " (11 chars), keep extra room for safety. */
 #define MAX_CHARS 24
 #define TYPE_DELAY_MS 10
 
@@ -38,6 +39,14 @@ static void reset_typing_state(struct behavior_battery_lr_printer_data *data) {
     data->key_pressed = false;
     data->chars_len = 0;
     memset(data->chars, 0, sizeof(data->chars));
+}
+
+static bool append_char(struct behavior_battery_lr_printer_data *data, uint8_t ch) {
+    if (data->chars_len >= ARRAY_SIZE(data->chars)) {
+        return false;
+    }
+    data->chars[data->chars_len++] = ch;
+    return true;
 }
 
 static uint32_t char_to_encoded_keycode(uint8_t ch) {
@@ -84,24 +93,26 @@ static void uint_to_chars(uint32_t value, uint8_t *buffer, uint8_t *len) {
     *len = count;
 }
 
-static void append_percent_text(struct behavior_battery_lr_printer_data *data, char side, uint8_t percent) {
-    data->chars[data->chars_len++] = side;
+static bool append_percent_text(struct behavior_battery_lr_printer_data *data, char side, uint8_t percent) {
+    if (!append_char(data, side)) {
+        return false;
+    }
 
     uint8_t digitbuf[4];
     uint8_t digitlen = 0;
     uint_to_chars(percent, digitbuf, &digitlen);
     for (int i = 0; i < digitlen; i++) {
-        data->chars[data->chars_len++] = digitbuf[i];
+        if (!append_char(data, digitbuf[i])) {
+            return false;
+        }
     }
 
-    data->chars[data->chars_len++] = '%';
+    return append_char(data, '%');
 }
 
-static void append_unknown_text(struct behavior_battery_lr_printer_data *data, char side) {
-    data->chars[data->chars_len++] = side;
-    data->chars[data->chars_len++] = '-';
-    data->chars[data->chars_len++] = '-';
-    data->chars[data->chars_len++] = '%';
+static bool append_unknown_text(struct behavior_battery_lr_printer_data *data, char side) {
+    return append_char(data, side) && append_char(data, '-') && append_char(data, '-') &&
+           append_char(data, '%');
 }
 
 static void send_key(struct behavior_battery_lr_printer_data *data) {
@@ -163,8 +174,10 @@ static int on_pressed(struct zmk_behavior_binding *binding, struct zmk_behavior_
     if (left_percent > 100) {
         left_percent = 100;
     }
-    append_percent_text(data, 'L', left_percent);
-    data->chars[data->chars_len++] = ' ';
+    if (!append_percent_text(data, 'L', left_percent) || !append_char(data, ' ')) {
+        reset_typing_state(data);
+        return ZMK_BEHAVIOR_OPAQUE;
+    }
 
     uint8_t right_percent = 0;
     bool right_available = false;
@@ -179,12 +192,21 @@ static int on_pressed(struct zmk_behavior_binding *binding, struct zmk_behavior_
         if (right_percent > 100) {
             right_percent = 100;
         }
-        append_percent_text(data, 'R', right_percent);
+        if (!append_percent_text(data, 'R', right_percent)) {
+            reset_typing_state(data);
+            return ZMK_BEHAVIOR_OPAQUE;
+        }
     } else {
-        append_unknown_text(data, 'R');
+        if (!append_unknown_text(data, 'R')) {
+            reset_typing_state(data);
+            return ZMK_BEHAVIOR_OPAQUE;
+        }
     }
 
-    data->chars[data->chars_len++] = ' ';
+    if (!append_char(data, ' ')) {
+        reset_typing_state(data);
+        return ZMK_BEHAVIOR_OPAQUE;
+    }
     send_key(data);
     return ZMK_BEHAVIOR_OPAQUE;
 }
