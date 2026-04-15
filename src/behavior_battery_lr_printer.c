@@ -18,6 +18,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 /* Max produced string is "L100% R100% " (11 chars), keep extra room for safety. */
 #define MAX_CHARS 24
 #define TYPE_DELAY_MS 10
+#define MAX_PERCENT_DIGITS 4
 
 #if DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT)
 
@@ -73,7 +74,7 @@ static uint32_t char_to_encoded_keycode(uint8_t ch) {
 }
 
 static void uint_to_chars(uint32_t value, uint8_t *buffer, uint8_t *len) {
-    char tmp[4];
+    char tmp[MAX_PERCENT_DIGITS];
     int count = 0;
 
     if (value == 0) {
@@ -98,7 +99,7 @@ static bool append_percent_text(struct behavior_battery_lr_printer_data *data, c
         return false;
     }
 
-    uint8_t digitbuf[4];
+    uint8_t digitbuf[MAX_PERCENT_DIGITS];
     uint8_t digitlen = 0;
     uint_to_chars(percent, digitbuf, &digitlen);
     for (int i = 0; i < digitlen; i++) {
