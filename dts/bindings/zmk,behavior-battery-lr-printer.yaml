@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: MIT
+
+description: "Behavior that types left/right battery percentages."
+
+compatible: "zmk,behavior-battery-lr-printer"
+
+include: zero_param.yaml

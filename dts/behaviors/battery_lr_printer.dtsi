@@ -1,0 +1,9 @@
+/ {
+    behaviors {
+        /omit-if-no-ref/ battlr: battery_lr_printer {
+                compatible = "zmk,behavior-battery-lr-printer";
+                label = "BATTERY_LR_PRINTER";
+                #binding-cells = <0>;
+        };
+    };
+};
