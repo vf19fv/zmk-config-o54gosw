@@ -1,9 +1,9 @@
 #include <dt-bindings/zmk/mouse.h>
+#include <behaviors/battery_lr_printer.dtsi>
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
-#include <behaviors/battery_lr_printer.dtsi>
 
 / {
     keymap {
@@ -47,7 +47,7 @@
 
         layer_4 {
             bindings = <
-&kp LA(F4)  &trans  &trans         &trans  &trans             &trans  &trans           &trans            &trans          &kp LS(N7)      &kp LS(N8)      &kp LS(N9)        &trans            &trans
+&kp LA(F4)  &trans  &trans         &trans  &trans             &trans  &bt BT_CLR       &trans            &trans          &kp LS(N7)      &kp LS(N8)      &kp LS(N9)        &trans            &trans
 &trans      &trans  &kp LG(LS(S))  &trans  &trans             &trans  &trans           &trans            &kp LC(LA(N0))  &kp LC(LA(N1))  &kp LC(LA(N2))  &kp LC(LA(N3))    &kp LC(LA(N4))    &kp LC(FSLH)
 &trans      &trans  &trans         &trans  &trans             &trans  &trans           &trans            &trans          &kp KP_N1       &kp KP_N2       &kp KP_N3         &kp LC(LA(UP))    &trans
 &trans      &trans  &trans         &trans  &kp LC(LS(LA(R)))          &kp LC(LS(F10))  &kp LC(LA(DOWN))                  &kp RGUI        &trans          &kp LC(LA(LEFT))  &kp LC(LA(DOWN))  &kp LC(LA(RIGHT))
