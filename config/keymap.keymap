@@ -6,6 +6,28 @@
 #include <dt-bindings/zmk/pointing.h>
 
 / {
+    behaviors {
+        space_lt: space_layer_tap {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <125>;
+            bindings = <&mo>, <&kp>;
+        };
+
+        bspc_mt: backspace_mod_tap {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <125>;
+            bindings = <&kp>, <&kp>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -14,7 +36,7 @@
 &kp ESC        &kp Q  &kp W     &kp E     &kp R      &kp T  &kp INT3     &kp EQUAL    &kp Y  &kp U           &kp I      &kp O     &kp P      &kp BSPC
 &mt LCTRL TAB  &kp A  &kp S     &kp D     &lt 4 F    &kp G  &kp RBKT     &kp BSLH     &kp H  &lt 5 J         &kp K      &kp L     &kp MINUS  &mt RCTRL ENTER
 &kp LSHFT      &kp Z  &kp X     &kp C     &kp V      &kp B  &kp LS(N8)   &kp LS(N9)   &kp N  &kp M           &kp COMMA  &kp DOT   &kp UP     &kp RSHFT
-&kp LCTRL      &mo 5  &kp LGUI  &kp LALT  &lt 3 DEL         &lt 1 ENTER  &kp SPACE            &kp BSPC             &kp RALT   &kp LEFT  &kp DOWN   &kp RIGHT
+&kp LCTRL      &mo 5  &kp LGUI  &kp LALT  &lt 3 DEL         &lt 1 ENTER  &space_lt 2 SPACE   &bspc_mt RSHFT BSPC  &kp RALT   &kp LEFT  &kp DOWN   &kp RIGHT
             >;
         };
 
